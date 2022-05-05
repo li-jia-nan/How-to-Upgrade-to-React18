@@ -24,7 +24,7 @@
 
 - 新项目： 直接用 `npm` 或者 `yarn` 安装最新版依赖即可（如果是js，可以不需要安装types类型声明文件）
 
-```js
+```shell
 npm i react react-dom --save
     
 npm i @types/react @types/react-dom -D
@@ -32,7 +32,7 @@ npm i @types/react @types/react-dom -D
     
 - 旧项目： 先把依赖中的版本号改成最新，然后删掉 `node_modules` 文件夹，重新安装：
 
-```js
+```shell
 npm i
 ```
 
