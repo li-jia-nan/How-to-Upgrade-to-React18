@@ -1,16 +1,16 @@
 # How-to-Upgrade-to-React18
 
 # 前言
-.
+
 在 2021 年 6 月份，[React 18 Working Group（React 18 工作组，简称 reactwg）](https://github.com/reactwg/react-18)成立了，并且公布了 v18 版本的发布计划，经过将近一年的迭代和准备，在 2022 年 3 月 29 日，React 18 正式版终于发布了。
 
-可以在官网看到，`react 17` 的发布时间是 `2020 年 10 月 20 号`，距离 `React 18` 发布足足间隔一年半，并且v17中只有三个小版本，分别是`17.0.0`、`17.0.1`、`17.0.2`：
+可以在官网看到，`react 17` 的发布时间是 `2020 年 10 月 20 号`，距离 `React 18` 发布足足间隔一年半，并且 v17 中只有三个小版本，分别是`17.0.0`、`17.0.1`、`17.0.2`：
 
 - **17.0.0** - `React 17` 正式版发布
 - **17.0.1** - [只改动了 1 个文件](https://github.com/facebook/react/compare/v17.0.0...v17.0.1)，修复 ie 兼容问题，同时提升了 V8 内部对数组的执行性能
 - **17.0.2** - 改动集中于 `Scheduler` 包, 主干逻辑没有变动，只与[性能统计相关](https://github.com/facebook/react/compare/v17.0.1...v17.0.2)
 
-可以看到，在 `React 17` 的两次迭代中，都是只更新了补丁号，并且都是一些比较细节的更新，直到一年半之后的今天 `React 18` 正式版发布，`React 17` 都没有任何更新，所以 `React 17` 也被称为 `垫脚石版本`， 可以看出，`React 工作组` 对新特性的探索相当谨慎。
+可以看到，在 `React 17` 的两次迭代中，都是只更新了补丁号，并且都是一些比较细节的更新，直到一年半之后的今天 `React 18` 正式版发布，`React 17` 都没有任何更新，所以 `React 17` 也被称为 `垫脚石版本`， 可以看出，`React 工作组`  对新特性的探索相当谨慎。
 
 今天，我们就从开发者的角度来探索下 `React 18` 的一些新特性。
 
@@ -22,14 +22,14 @@
 
 # 升级
 
-- 新项目： 直接用 `npm` 或者 `yarn` 安装最新版依赖即可（如果是js，可以不需要安装types类型声明文件）
+- 新项目： 直接用 `npm` 或者 `yarn` 安装最新版依赖即可（如果是 js，可以不需要安装 types 类型声明文件）
 
 ```shell
 npm i react react-dom --save
-    
+
 npm i @types/react @types/react-dom -D
 ```
-    
+
 - 旧项目： 先把依赖中的版本号改成最新，然后删掉 `node_modules` 文件夹，重新安装：
 
 ```shell
@@ -62,7 +62,7 @@ const root = document.getElementById('root')!;
 ReactDOM.createRoot(root).render(<App />);
 ```
 
-同时，在卸载组件时，我们也需要将 `unmountComponentAtNode` 升级为 `root.unmount`:
+同时，在卸载组件时，我们也需要将  `unmountComponentAtNode`  升级为  `root.unmount`:
 
 ```js
 // React 17
@@ -76,7 +76,7 @@ tips：我们如果在 `React 18` 中使用旧的 `render api`，在项目启动
 
 ![11](https://user-images.githubusercontent.com/49217418/167022157-e0bc735d-1bce-4b27-885c-8bd66a805ce8.jpg)
 
-这表示你可以将项目直接升级到 `React 18` 版本，而不会直接造成 `break change`。如果你需要保持着 `React 17` 版本的特性的话，那么你可以无视这个报错，因为它在整个 `18` 版本中都是兼容的。
+这表示你可以将项目直接升级到  `React 18`  版本，而不会直接造成  `break change`。如果你需要保持着  `React 17`  版本的特性的话，那么你可以无视这个报错，因为它在整个  `18`  版本中都是兼容的。
 
 除此之外，`React 18` 还从 `render` 方法中删除了`回调函数`，因为当使用`Suspense`时，它通常不会有预期的结果。
 
@@ -179,7 +179,7 @@ const App: React.FC = () => {
 export default App;
 ```
 
-点击button，打印console.log：
+点击 button，打印 console.log：
 
 ![动画2](https://user-images.githubusercontent.com/49217418/167022226-b2e74545-b641-4857-9181-7cf2efc2c7b6.gif)
 
@@ -216,13 +216,13 @@ const App: React.FC = () => {
 export default App;
 ```
 
-点击button，重新打印console.log：
+点击 button，重新打印 console.log：
 
 ![动画3](https://user-images.githubusercontent.com/49217418/167022264-aadb7adc-8379-405a-b8dd-cd0b2554ab9b.gif)
 
 可以看到，每次点击更新两个状态，组件都会渲染两次，不会进行批量更新。
 
-#### 情况三：原生js事件
+#### 情况三：原生 js 事件
 
 ```ts
 import React, { useEffect, useState } from 'react';
@@ -249,17 +249,18 @@ const App: React.FC = () => {
 
 export default App;
 ```
-点击button，重新打印console.log：
+
+点击 button，重新打印 console.log：
 
 ![动画3](https://user-images.githubusercontent.com/49217418/167022287-c75705ce-ad0b-4c23-9868-09f77f8de5ff.gif)
 
-可以看到，在原生js事件中，结果跟情况二是一样的，每次点击更新两个状态，组件都会渲染两次，不会进行批量更新。
+可以看到，在原生 js 事件中，结果跟情况二是一样的，每次点击更新两个状态，组件都会渲染两次，不会进行批量更新。
 
 ### 2. 在 React 18 中：
 
-在 `React 18` 上面的三个例子只会有一次 `render`，因为所有的更新都将自动批处理。这样无疑是很好的提高了应用的整体性能。
+在  `React 18`  上面的三个例子只会有一次  `render`，因为所有的更新都将自动批处理。这样无疑是很好的提高了应用的整体性能。
 
-**不过以下例子会在 `React 18` 中执行两次 render**：
+**不过以下例子会在  `React 18`  中执行两次 render**：
 
 ```tsx
 import React, { useState } from 'react';
@@ -287,7 +288,7 @@ export default App;
 
 ### 总结：
 
-- 在 18 之前，只有在react事件处理函数中，才会自动执行批处理，其它情况会多次更新
+- 在 18 之前，只有在 react 事件处理函数中，才会自动执行批处理，其它情况会多次更新
 - 在 18 之后，任何情况都会自动执行批处理，多次更新始终合并为一次
 
 ## 三、flushSync
@@ -323,7 +324,7 @@ const App: React.FC = () => {
 export default App;
 ```
 
-注意：**`flushSync` 函数内部的多个 `setState` 仍然为批量更新**，这样可以精准控制哪些不需要的批量更新。
+注意：**`flushSync`  函数内部的多个  `setState`  仍然为批量更新**，这样可以精准控制哪些不需要的批量更新。
 
 有关`批处理`和`flushSync`的更多信息，你可以参阅 React 官方的[Automatic batching deep dive（批处理深度分析）](https://github.com/reactwg/react-18/discussions/21)。
 
@@ -351,8 +352,8 @@ export default App;
 
 ## 五、关于 React 组件的返回值
 
-- 在 `React 17` 中，如果你需要返回一个`空组件`，React只允许返回`null`。如果你显式的返回了 `undefined`，控制台则会在运行时抛出一个错误。
--  在 `React 18` 中，不再检查因返回 `undefined` 而导致崩溃。既能返回 `null`，也能返回 `undefined`（但是 `React 18` 的`dts`文件还是会检查，只允许返回 `null`，你可以忽略这个类型错误）。
+- 在  `React 17`  中，如果你需要返回一个`空组件`，React 只允许返回`null`。如果你显式的返回了  `undefined`，控制台则会在运行时抛出一个错误。
+- 在  `React 18`  中，不再检查因返回  `undefined`  而导致崩溃。既能返回 `null`，也能返回 `undefined`（但是 `React 18` 的`dts`文件还是会检查，只允许返回 `null`，你可以忽略这个类型错误）。
 
 关于组件返回值的官方解释： [https://github.com/reactwg/react-18/discussions/75](https://github.com/reactwg/react-18/discussions/75)
 
@@ -378,10 +379,10 @@ export default App;
 
 ```tsx
 // React 17
-const App = () => {
+const App: React.FC = () => {
   return (
-    <Suspense fallback={<Loading />}> // <--- 这个边界被使用，显示 Loading 组件
-      <Suspense>                      // <--- 这个边界被跳过，没有 fallback 属性
+    <Suspense fallback={<Loading />}>  // <--- 这个边界被使用，显示 Loading 组件
+      <Suspense>                       // <--- 这个边界被跳过，没有 fallback 属性
         <Page />
       </Suspense>
     </Suspense>
@@ -391,18 +392,18 @@ const App = () => {
 export default App;
 ```
 
-React 工作组发现这可能会导致混乱、难以调试的情况发生。例如，你正在debug一个问题，并且在没有 `fallback` 属性的 `Suspense` 组件中抛出一个边界来测试一个问题，它可能会带来一些意想不到的结果，并且 `不会警告` 说它 `没有fallback` 属性。
+React 工作组发现这可能会导致混乱、难以调试的情况发生。例如，你正在 debug 一个问题，并且在没有 `fallback` 属性的 `Suspense` 组件中抛出一个边界来测试一个问题，它可能会带来一些意想不到的结果，并且 `不会警告` 说它 `没有fallback` 属性。
 
 ### 更新后：
 
-现在，React将使用当前组件的 `Suspense` 作为边界，即使当前组件的 `Suspense` 的值为 `null` 或 `undefined`：
+现在，React 将使用当前组件的 `Suspense` 作为边界，即使当前组件的 `Suspense` 的值为 `null` 或 `undefined`：
 
 ```tsx
 // React 18
-const App = () => {
+const App: React.FC = () => {
   return (
-    <Suspense fallback={<Loading />}> // <--- 不使用
-      <Suspense>                      // <--- 这个边界被使用，将 fallback 渲染为 null
+    <Suspense fallback={<Loading />}>  // <--- 不使用
+      <Suspense>                       // <--- 这个边界被使用，将 fallback 渲染为 null
         <Page />
       </Suspense>
     </Suspense>
@@ -424,13 +425,13 @@ export default App;
 const id = useId();
 ```
 
-支持同一个组件在客户端和服务端生成相同的唯一的 ID，避免 `hydration` 的不兼容，这解决了在 `React 17` 及 `17` 以下版本中已经存在的问题。因为我们的服务器渲染时提供的 `HTML` 是`无序的`，`useId` 的原理就是每个 `id` 代表该组件在组件树中的层级结构。
+支持同一个组件在客户端和服务端生成相同的唯一的 ID，避免  `hydration`  的不兼容，这解决了在 `React 17` 及 `17` 以下版本中已经存在的问题。因为我们的服务器渲染时提供的 `HTML` 是`无序的`，`useId` 的原理就是每个 `id` 代表该组件在组件树中的层级结构。
 
-有关useId的更多信息，请参阅 [useId post in the working group](https://github.com/reactwg/react-18/discussions/111)。
+有关 useId 的更多信息，请参阅 [useId post in the working group](https://github.com/reactwg/react-18/discussions/111)。
 
 ## 二、useSyncExternalStore
 
-`useSyncExternalStore` 是一个新的api，经历了一次修改，由 `useMutableSource` 改变而来，主要用来解决外部数据撕裂问题。
+`useSyncExternalStore`  是一个新的 api，经历了一次修改，由  `useMutableSource`  改变而来，主要用来解决外部数据撕裂问题。
 
 useSyncExternalStore 能够通过强制同步更新数据让 React 组件在 CM 下安全地有效地读取外接数据源。 在 Concurrent Mode 下，React 一次渲染会分片执行（以 fiber 为单位），中间可能穿插优先级更高的更新。假如在高优先级的更新中改变了公共数据（比如 redux 中的数据），那之前低优先的渲染必须要重新开始执行，否则就会出现前后状态不一致的情况。
 
@@ -438,7 +439,7 @@ useSyncExternalStore 能够通过强制同步更新数据让 React 组件在 CM 
 
 目前 `React-Redux 8.0` 已经基于 `useSyncExternalStore` 实现。
 
-有关useSyncExternalStore的更多信息，请参阅 [useSyncExternalStore overview post](https://github.com/reactwg/react-18/discussions/70) 和 [useSyncExternalStore API details](https://github.com/reactwg/react-18/discussions/86)。
+有关 useSyncExternalStore 的更多信息，请参阅 [useSyncExternalStore overview post](https://github.com/reactwg/react-18/discussions/70) 和 [useSyncExternalStore API details](https://github.com/reactwg/react-18/discussions/86)。
 
 ## 三、useInsertionEffect
 
@@ -461,17 +462,17 @@ const App: React.FC = () => {
 export default App;
 ```
 
-这个 Hooks 只建议 `css-in-js` 库来使用。 这个 Hooks 执行时机在 `DOM` 生成之后，`useLayoutEffect` 之前，它的工作原理大致和 `useLayoutEffect` 相同，只是此时无法访问 `DOM` 节点的引用，一般用于提前注入 `<style>` 脚本。
+这个 Hooks 只建议  `css-in-js` 库来使用。 这个 Hooks 执行时机在 `DOM` 生成之后，`useLayoutEffect` 之前，它的工作原理大致和  `useLayoutEffect`  相同，只是此时无法访问  `DOM`  节点的引用，一般用于提前注入  `<style>`  脚本。
 
-有关useInsertionEffect的更多信息，请参阅 [Library Upgrade Guide for `<style>`](https://github.com/reactwg/react-18/discussions/110)。
+有关 useInsertionEffect 的更多信息，请参阅 [Library Upgrade Guide for `<style>`](https://github.com/reactwg/react-18/discussions/110)。
 
 # Concurrent Mode（并发模式）
 
-Concurrent Mode（以下简称 `CM`）翻译叫并发模式，这个概念我们或许已经听过很多次了，实际上，在去年这个概念已经很成熟了，在 `React 17` 中就可以通过一些`试验性`的api开启 `CM`。
+Concurrent Mode（以下简称 `CM`）翻译叫并发模式，这个概念我们或许已经听过很多次了，实际上，在去年这个概念已经很成熟了，在 `React 17` 中就可以通过一些`试验性`的 api 开启 `CM`。
 
     CM 本身并不是一个功能，而是一个底层设计
-    
-并发模式可帮助应用保持响应，并根据用户的设备性能和网速进行适当的调整，该模式通过使渲染可中断来修复`阻塞渲染`限制。在 `Concurrent` 模式中，`React` 可以同时更新多个状态。
+
+并发模式可帮助应用保持响应，并根据用户的设备性能和网速进行适当的调整，该模式通过使渲染可中断来修复`阻塞渲染`限制。在  `Concurrent`  模式中，`React`  可以同时更新多个状态。
 
 说的太复杂可能有点拗口，总结一句话就是：
 
@@ -493,13 +494,13 @@ NO！ 在 `React 17` 中一些实验性功能里面，开启`并发模式`就是
 
 可以从架构角度来概括下，当前一共有两种架构：
 
--   采用不可中断的`递归`方式更新的`Stack Reconciler`（老架构）
--   采用可中断的`遍历`方式更新的`Fiber Reconciler`（新架构）
+- 采用不可中断的`递归`方式更新的`Stack Reconciler`（老架构）
+- 采用可中断的`遍历`方式更新的`Fiber Reconciler`（新架构）
 
 新架构可以选择是否开启`并发更新`，所以当前市面上所有 `React` 版本有四种情况：
 
-1. 老架构（v15及之前版本）
-2. 新架构，未开启并发更新，与情况1行为一致（v16、v17 默认属于这种情况）
+1. 老架构（v15 及之前版本）
+2. 新架构，未开启并发更新，与情况 1 行为一致（v16、v17 默认属于这种情况）
 3. 新架构，未开启并发更新，但是启用了并发模式和一些新功能（比如 `Automatic Batching`，v18 默认属于这种情况）
 4. 新架构，开启并发模式，开启并发更新
 
@@ -532,7 +533,7 @@ ReactDOM.createRoot --> 开启并发模式
 
 ### 一、startTransition
 
-在v18中运行如下代码：
+在 v18 中运行如下代码：
 
 ```tsx
 import React, { useState, useEffect, useTransition } from 'react';
@@ -560,9 +561,9 @@ export default App;
 
 由于 `setList` 在 `startTransition` 的回调函数中执行（使用了`并发特性`），所以 `setList` 会触发`并发更新`。
 
-`startTransition`，主要为了能在大量的任务下也能保持 UI 响应。这个新的 API 可以通过将特定更新标记为`“过渡”`来显著改善用户交互，简单来说，就是被 `startTransition` 回调包裹的 `setState` 触发的渲染被标记为不紧急渲染，这些渲染可能被其他`紧急渲染`所抢占。
+`startTransition`，主要为了能在大量的任务下也能保持 UI 响应。这个新的 API 可以通过将特定更新标记为`“过渡”`来显著改善用户交互，简单来说，就是被  `startTransition`  回调包裹的  `setState`  触发的渲染被标记为不紧急渲染，这些渲染可能被其他`紧急渲染`所抢占。
 
-- 有关startTransition的更多信息，请参阅 [Patterns for startTransition](https://github.com/reactwg/react-18/discussions/100)。
+- 有关 startTransition 的更多信息，请参阅 [Patterns for startTransition](https://github.com/reactwg/react-18/discussions/100)。
 
 ### 二、useDeferredValue
 
@@ -573,7 +574,7 @@ export default App;
 - 相同：`useDeferredValue` 本质上和内部实现与 `useTransition` 一样，都是标记成了`延迟更新`任务。
 - 不同：`useTransition` 是把更新任务变成了延迟更新任务，而 `useDeferredValue` 是产生一个新的值，这个值作为延时状态。（一个用来包装方法，一个用来包装值）
 
-所以，上面 `startTransition` 的例子，我们也可以用 `useDeferredValue` 来实现：
+所以，上面 `startTransition` 的例子，我们也可以用  `useDeferredValue` 来实现：
 
 ```tsx
 import React, { useState, useEffect, useDeferredValue } from 'react';
@@ -596,13 +597,14 @@ const App: React.FC = () => {
 
 export default App;
 ```
+
 然后启动项目，查看一下打印的执行堆栈图：
 
 ![QQ截图20220505072516](https://user-images.githubusercontent.com/49217418/167022550-dcac8058-688e-47e8-9335-abed6175ea9c.jpg)
 
 此时我们的任务被拆分到每一帧不同的 `task` 中，`JS脚本`执行时间大体在`5ms`左右，这样浏览器就有剩余时间执行**样式布局**和**样式绘制**，减少掉帧的可能性。
 
-- 有关useDeferredValue的更多信息，请参阅 [New in 18: useDeferredValue](https://github.com/reactwg/react-18/discussions/129)。
+- 有关 useDeferredValue 的更多信息，请参阅 [New in 18: useDeferredValue](https://github.com/reactwg/react-18/discussions/129)。
 
 ### 三、普通情况
 
@@ -632,7 +634,7 @@ export default App;
 
 ![999](https://user-images.githubusercontent.com/49217418/167022571-da94bc6b-37ff-4ad3-9fad-f82fed4c0738.jpg)
 
-可以从打印的执行堆栈图看到，此时由于组件数量繁多（10000个），JS执行时间为`500ms`，也就是意味着，在没有并发特性的情况下：一次性渲染10000个标签的时候，页面会阻塞大约`0.5秒`，造成卡顿，但是如果开启了并发更新，就不会存在这样的问题。
+可以从打印的执行堆栈图看到，此时由于组件数量繁多（10000 个），JS 执行时间为`500ms`，也就是意味着，在没有并发特性的情况下：一次性渲染 10000 个标签的时候，页面会阻塞大约`0.5秒`，造成卡顿，但是如果开启了并发更新，就不会存在这样的问题。
 
      这种将长任务分拆到每一帧中，像蚂蚁搬家一样一次执行一小段任务的操作，被称为时间切片（time slice）
 
@@ -644,7 +646,7 @@ export default App;
 
 # 结语
 
-以上是本次 `React` 所升级的大致内容，如有错误，敬请指正。
+以上是本次  `React`  所升级的大致内容，如有错误，敬请指正。
 
 # 参考资料
 
