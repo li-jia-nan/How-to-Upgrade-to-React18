@@ -504,7 +504,7 @@ NO！ 在 `React 17` 中一些实验性功能里面，开启`并发模式`就是
 3. 新架构，未开启并发更新，但是启用了并发模式和一些新功能（比如 `Automatic Batching`，v18 默认属于这种情况）
 4. 新架构，开启并发模式，开启并发更新
 
-`并发特性`指开启`并发更新`后才能使用的特性，比如：
+`并发特性`指开启`并发模式`后才能使用的特性，比如：
 
 - `useDeferredValue`
 - `useTransition`
@@ -608,7 +608,7 @@ export default App;
 
 ### 三、普通情况
 
-我们可以关闭并发特性，在普通环境中运行项目：
+我们关闭并发特性，在普通情况中运行项目：
 
 ```tsx
 import React, { useState, useEffect } from 'react';
